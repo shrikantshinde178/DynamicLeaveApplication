@@ -1,29 +1,49 @@
 import calendar
-from datetime import datetime
+from datetime import datetime, timedelta
 
-try:
-    year = 2022
-    StudentName = input("\nEnter your name : ")
-    TeachersName = input("\nEnter your teacher name : ")
-    gettingMonth=int(input("\nEnter the Month : "))    
-    print("\n", calendar.month(year,gettingMonth))
-    Date=input("\n Select the date : ")
-    DateOfApplication= datetime.today()
-    LeaveTenture = int(input("\nleave tenure (in days only) : "))
-    ClassName = input("\nEnter the class : ")
-    Department =  input("\nDepartment Name : ")
-    SubjectLine = input("\nEnter the subject Line : ")
-    Reason =str(input("\nReason of Leave : "))
-    print("\nApplication submitted successfully.")
-   
-    print("\n\ndetails is as per application - ")
-    print("\n\tApplicant Name = ",StudentName)
-    print("\tAuthorised Teacher = ",TeachersName)
-    print("\tDate of Application = ",DateOfApplication)
-    print("\tApplication submission time = ",datetime.now())
-    print("\tRequested Tenture Leave = ",LeaveTenture)
-    print("\tClass of the applicant = ",ClassName)
-    print("\tDepartment of the Candidate = ",Department)
-    
-except:  
-    print("Unknown Error Occures")
+def generate_leave_application():
+    try:
+        year = 2022  # You can update this dynamically if needed
+        student_name = input("\nEnter your name: ")
+        teacher_name = input("\nEnter your teacher name: ")
+        month = int(input("\nEnter the Month (1-12): "))
+        print("\n", calendar.month(year, month))
+        
+        date_input = input("\nSelect the date (DD): ")
+        date_of_application = datetime.today()
+        leave_tenure = int(input("\nLeave tenure (in days only): "))
+        class_name = input("\nEnter the class: ")
+        department = input("\nDepartment Name: ")
+        subject_line = input("\nEnter the subject Line: ")
+        reason = input("\nReason of Leave: ")
+
+        # leave end date by adding leave tenure to the application date
+        leave_end_date = date_of_application + timedelta(days=leave_tenure)
+
+        # Creating the leave application
+        leave_application = f"""
+        Leave Application:
+
+        Applicant Name: {student_name}
+        Authorised Teacher: {teacher_name}
+        Date of Application: {date_of_application.strftime("%Y-%m-%d %H:%M:%S")}
+        Application submission time: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+        Requested Tenure Leave: {leave_tenure} days
+        Class of the applicant: {class_name}
+        Department of the Candidate: {department}
+        Subject Line: {subject_line}
+        Reason of Leave: {reason}
+
+        Leave Start Date: {date_input} {calendar.month_name[month]}, {year}
+        Leave End Date: {leave_end_date.strftime("%Y-%m-%d")}
+        """
+
+        print("\nApplication submitted successfully.")
+        print("\nDetails as per application -")
+        print(leave_application)
+        
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+# function to generate leave application
+generate_leave_application()
